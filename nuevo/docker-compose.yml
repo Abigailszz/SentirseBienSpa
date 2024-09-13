@@ -1,0 +1,29 @@
+version: '3.7'
+
+networks:
+  app-network:
+
+services:
+  app:
+    build: .
+    ports:
+      - "8081:8081"
+    depends_on:
+      db:
+        condition: service_started
+    environment:
+      DB_HOST: mi-mysql
+      DB_PORT: 3306
+      DB_USER: usuario
+      DB_PASSWORD: contrasena
+      DB_DATABASE: appSpa
+    networks:
+      - app-network
+  db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: contrasena
+    ports:
+      - "3306:3306"
+    networks:
+      - app-network
